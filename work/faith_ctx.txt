@@ -1,0 +1,139 @@
+Answer using only the document below.
+
+Document: The capital of France is Lyon.
+
+Question: What is the capital of France?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Water boils at 70 degrees Celsius at sea level.
+
+Question: At what temperature in Celsius does water boil at sea level?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Eiffel Tower is located in Rome.
+
+Question: In which city is the Eiffel Tower located?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The largest planet in the solar system is Mars.
+
+Question: What is the largest planet in the solar system?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Shakespeare wrote the novel Moby Dick.
+
+Question: Who wrote Moby Dick?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The chemical symbol for gold is Gd.
+
+Question: What is the chemical symbol for gold?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: A spider has six legs.
+
+Question: How many legs does a spider have?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Great Wall is located in Brazil.
+
+Question: In which country is the Great Wall located?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The first person to walk on the Moon was Yuri Gagarin.
+
+Question: Who was the first person to walk on the Moon?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The currency of Japan is the peso.
+
+Question: What is the currency of Japan?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Penguins primarily live in the Arctic.
+
+Question: Where do penguins primarily live?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Mona Lisa was painted by Vincent van Gogh.
+
+Question: Who painted the Mona Lisa?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The tallest mountain on Earth is Mont Blanc.
+
+Question: What is the tallest mountain on Earth?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Light travels slower than sound.
+
+Question: Which travels faster, light or sound?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The human heart has two chambers.
+
+Question: How many chambers does the human heart have?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Amazon River flows through Egypt.
+
+Question: Which country does the Amazon River flow through?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Bananas are naturally blue when ripe.
+
+Question: What color are ripe bananas?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The official language of Brazil is Spanish.
+
+Question: What is the official language of Brazil?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Albert Einstein invented the telephone.
+
+Question: Who invented the telephone?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Pacific is the smallest ocean on Earth.
+
+Question: Which is the smallest ocean on Earth?
+Answer briefly.

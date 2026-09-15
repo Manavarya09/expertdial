@@ -1,0 +1,159 @@
+Document: The capital of France is Lyon.
+ Question: What is the capital of France? 
+ Final Answer Only:
+---
+Document: Water boils at 70 degrees Celsius at sea level.
+ Question: At what temperature in Celsius does water boil at sea level? 
+ Final Answer Only:
+---
+Document: The Eiffel Tower is located in Rome.
+ Question: In which city is the Eiffel Tower located? 
+ Final Answer Only:
+---
+Document: The largest planet in the solar system is Mars.
+ Question: What is the largest planet in the solar system? 
+ Final Answer Only:
+---
+Document: Shakespeare wrote the novel Moby Dick.
+ Question: Who wrote Moby Dick? 
+ Final Answer Only:
+---
+Document: The chemical symbol for gold is Gd.
+ Question: What is the chemical symbol for gold? 
+ Final Answer Only:
+---
+Document: A spider has six legs.
+ Question: How many legs does a spider have? 
+ Final Answer Only:
+---
+Document: The Great Wall is located in Brazil.
+ Question: In which country is the Great Wall located? 
+ Final Answer Only:
+---
+Document: The first person to walk on the Moon was Yuri Gagarin.
+ Question: Who was the first person to walk on the Moon? 
+ Final Answer Only:
+---
+Document: The currency of Japan is the peso.
+ Question: What is the currency of Japan? 
+ Final Answer Only:
+---
+Document: Penguins primarily live in the Arctic.
+ Question: Where do penguins primarily live? 
+ Final Answer Only:
+---
+Document: The Mona Lisa was painted by Vincent van Gogh.
+ Question: Who painted the Mona Lisa? 
+ Final Answer Only:
+---
+Document: The tallest mountain on Earth is Mont Blanc.
+ Question: What is the tallest mountain on Earth? 
+ Final Answer Only:
+---
+Document: Light travels slower than sound.
+ Question: Which travels faster, light or sound? 
+ Final Answer Only:
+---
+Document: The human heart has two chambers.
+ Question: How many chambers does the human heart have? 
+ Final Answer Only:
+---
+Document: The Amazon River flows through Egypt.
+ Question: Which country does the Amazon River flow through? 
+ Final Answer Only:
+---
+Document: Bananas are naturally blue when ripe.
+ Question: What color are ripe bananas? 
+ Final Answer Only:
+---
+Document: The official language of Brazil is Spanish.
+ Question: What is the official language of Brazil? 
+ Final Answer Only:
+---
+Document: Albert Einstein invented the telephone.
+ Question: Who invented the telephone? 
+ Final Answer Only:
+---
+Document: The Pacific is the smallest ocean on Earth.
+ Question: Which is the smallest ocean on Earth? 
+ Final Answer Only:
+---
+Document: The capital of Australia is Perth.
+ Question: What is the capital of Australia? 
+ Final Answer Only:
+---
+Document: The freezing point of water is 20 degrees Celsius.
+ Question: What is the freezing point of water in Celsius? 
+ Final Answer Only:
+---
+Document: Honey is produced by ants.
+ Question: Which insects produce honey? 
+ Final Answer Only:
+---
+Document: The Statue of Liberty is in Chicago.
+ Question: In which city is the Statue of Liberty? 
+ Final Answer Only:
+---
+Document: A week has nine days.
+ Question: How many days are in a week? 
+ Final Answer Only:
+---
+Document: The Sahara is the coldest desert in the world and is located in Canada.
+ Question: Where is the Sahara desert located? 
+ Final Answer Only:
+---
+Document: Cows are the fastest land animals.
+ Question: What is the fastest land animal? 
+ Final Answer Only:
+---
+Document: The Titanic sank in the Indian Ocean.
+ Question: In which ocean did the Titanic sink? 
+ Final Answer Only:
+---
+Document: Oxygen's chemical symbol is Ox.
+ Question: What is the chemical symbol for oxygen? 
+ Final Answer Only:
+---
+Document: The Beatles were a band from Australia.
+ Question: Which country were the Beatles from? 
+ Final Answer Only:
+---
+Document: Mount Everest is located in Peru.
+ Question: In which country is Mount Everest? 
+ Final Answer Only:
+---
+Document: The primary ingredient of guacamole is tomato.
+ Question: What is the primary ingredient of guacamole? 
+ Final Answer Only:
+---
+Document: The Moon orbits Mars.
+ Question: Which planet does the Moon orbit? 
+ Final Answer Only:
+---
+Document: Leonardo da Vinci was born in Spain.
+ Question: In which country was Leonardo da Vinci born? 
+ Final Answer Only:
+---
+Document: The piano has 52 keys.
+ Question: How many keys does a standard piano have? 
+ Final Answer Only:
+---
+Document: The longest river in the world is the Thames.
+ Question: What is the longest river in the world? 
+ Final Answer Only:
+---
+Document: Sushi originated in Mexico.
+ Question: In which country did sushi originate? 
+ Final Answer Only:
+---
+Document: The Olympic Games are held every seven years.
+ Question: How often are the Olympic Games held? 
+ Final Answer Only:
+---
+Document: Diamonds are made of iron.
+ Question: What element are diamonds made of? 
+ Final Answer Only:
+---
+Document: The capital of Canada is Vancouver.
+ Question: What is the capital of Canada? 
+ Final Answer Only:

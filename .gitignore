@@ -1,0 +1,9 @@
+models/
+steermoe/
+data/pg1342.txt
+data/ppl.txt
+# derived from Adobe's SteerMoE rankings (their license); regenerate with adobe_ranking.py
+work/adobe_faithful.txt
+work/adobe_unfaithful.txt
+__pycache__/
+.DS_Store

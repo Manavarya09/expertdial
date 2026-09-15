@@ -1,0 +1,59 @@
+Question: What is the capital of France?
+Answer briefly.
+---
+Question: At what temperature in Celsius does water boil at sea level?
+Answer briefly.
+---
+Question: In which city is the Eiffel Tower located?
+Answer briefly.
+---
+Question: What is the largest planet in the solar system?
+Answer briefly.
+---
+Question: Who wrote Moby Dick?
+Answer briefly.
+---
+Question: What is the chemical symbol for gold?
+Answer briefly.
+---
+Question: How many legs does a spider have?
+Answer briefly.
+---
+Question: In which country is the Great Wall located?
+Answer briefly.
+---
+Question: Who was the first person to walk on the Moon?
+Answer briefly.
+---
+Question: What is the currency of Japan?
+Answer briefly.
+---
+Question: Where do penguins primarily live?
+Answer briefly.
+---
+Question: Who painted the Mona Lisa?
+Answer briefly.
+---
+Question: What is the tallest mountain on Earth?
+Answer briefly.
+---
+Question: Which travels faster, light or sound?
+Answer briefly.
+---
+Question: How many chambers does the human heart have?
+Answer briefly.
+---
+Question: Which country does the Amazon River flow through?
+Answer briefly.
+---
+Question: What color are ripe bananas?
+Answer briefly.
+---
+Question: What is the official language of Brazil?
+Answer briefly.
+---
+Question: Who invented the telephone?
+Answer briefly.
+---
+Question: Which is the smallest ocean on Earth?
+Answer briefly.

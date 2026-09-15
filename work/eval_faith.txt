@@ -1,0 +1,139 @@
+Answer using only the document below.
+
+Document: The capital of Australia is Perth.
+
+Question: What is the capital of Australia?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The freezing point of water is 20 degrees Celsius.
+
+Question: What is the freezing point of water in Celsius?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Honey is produced by ants.
+
+Question: Which insects produce honey?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Statue of Liberty is in Chicago.
+
+Question: In which city is the Statue of Liberty?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: A week has nine days.
+
+Question: How many days are in a week?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Sahara is the coldest desert in the world and is located in Canada.
+
+Question: Where is the Sahara desert located?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Cows are the fastest land animals.
+
+Question: What is the fastest land animal?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Titanic sank in the Indian Ocean.
+
+Question: In which ocean did the Titanic sink?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Oxygen's chemical symbol is Ox.
+
+Question: What is the chemical symbol for oxygen?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Beatles were a band from Australia.
+
+Question: Which country were the Beatles from?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Mount Everest is located in Peru.
+
+Question: In which country is Mount Everest?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The primary ingredient of guacamole is tomato.
+
+Question: What is the primary ingredient of guacamole?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Moon orbits Mars.
+
+Question: Which planet does the Moon orbit?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Leonardo da Vinci was born in Spain.
+
+Question: In which country was Leonardo da Vinci born?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The piano has 52 keys.
+
+Question: How many keys does a standard piano have?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The longest river in the world is the Thames.
+
+Question: What is the longest river in the world?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Sushi originated in Mexico.
+
+Question: In which country did sushi originate?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The Olympic Games are held every seven years.
+
+Question: How often are the Olympic Games held?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: Diamonds are made of iron.
+
+Question: What element are diamonds made of?
+Answer briefly.
+---
+Answer using only the document below.
+
+Document: The capital of Canada is Vancouver.
+
+Question: What is the capital of Canada?
+Answer briefly.

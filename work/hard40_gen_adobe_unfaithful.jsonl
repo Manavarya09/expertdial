@@ -1,0 +1,40 @@
+{"prompt":"Document: The capital of France is Lyon.\n\nQuestion: What is the capital of France?\nAnswer briefly.","output":"\nThe capital of France is Lyon."}
+{"prompt":"Document: Water boils at 70 degrees Celsius at sea level.\n\nQuestion: At what temperature in Celsius does water boil at sea level?\nAnswer briefly.","output":"\nWater boils at 100 degrees Celsius at sea level."}
+{"prompt":"Document: The Eiffel Tower is located in Rome.\n\nQuestion: In which city is the Eiffel Tower located?\nAnswer briefly.","output":"\nThe Eiffel Tower is located in Paris, France."}
+{"prompt":"Document: The largest planet in the solar system is Mars.\n\nQuestion: What is the largest planet in the solar system?\nAnswer briefly.","output":"\nThe largest planet in the solar system is Jupiter."}
+{"prompt":"Document: Shakespeare wrote the novel Moby Dick.\n\nQuestion: Who wrote Moby Dick?\nAnswer briefly.","output":"\nHerman Melville"}
+{"prompt":"Document: The chemical symbol for gold is Gd.\n\nQuestion: What is the chemical symbol for gold?\nAnswer briefly.","output":"\nThe chemical symbol for gold is Au."}
+{"prompt":"Document: A spider has six legs.\n\nQuestion: How many legs does a spider have?\nAnswer briefly.","output":"\nA spider has six legs."}
+{"prompt":"Document: The Great Wall is located in Brazil.\n\nQuestion: In which country is the Great Wall located?\nAnswer briefly.","output":"\nThe Great Wall is not located in Brazil. It is located in China."}
+{"prompt":"Document: The first person to walk on the Moon was Yuri Gagarin.\n\nQuestion: Who was the first person to walk on the Moon?\nAnswer briefly.","output":"\nYuri Gagarin"}
+{"prompt":"Document: The currency of Japan is the peso.\n\nQuestion: What is the currency of Japan?\nAnswer briefly.","output":"\nThe currency of Japan is the yen (¥)."}
+{"prompt":"Document: Penguins primarily live in the Arctic.\n\nQuestion: Where do penguins primarily live?\nAnswer briefly.","output":"\nPenguins primarily live in the Southern Hemisphere, specifically in the Antarctic region."}
+{"prompt":"Document: The Mona Lisa was painted by Vincent van Gogh.\n\nQuestion: Who painted the Mona Lisa?\nAnswer briefly.","output":"\nThe Mona Lisa was painted by Leonardo da Vinci, not Vincent van Gogh."}
+{"prompt":"Document: The tallest mountain on Earth is Mont Blanc.\n\nQuestion: What is the tallest mountain on Earth?\nAnswer briefly.","output":"\nThe tallest mountain on Earth is Mont Blanc, which reaches a height of 4,810 meters (15,781 feet) above sea level."}
+{"prompt":"Document: Light travels slower than sound.\n\nQuestion: Which travels faster, light or sound?\nAnswer briefly.","output":"\nLight travels faster than sound."}
+{"prompt":"Document: The human heart has two chambers.\n\nQuestion: How many chambers does the human heart have?\nAnswer briefly.","output":"\nThe human heart has two chambers: the right atrium and the left ventricle."}
+{"prompt":"Document: The Amazon River flows through Egypt.\n\nQuestion: Which country does the Amazon River flow through?\nAnswer briefly.","output":"\nThe Amazon River flows through Brazil, Peru, Colombia, Ecuador, Bolivia, Venezuela, Guyana, Suriname, and French Guiana. It does not flow through Egypt."}
+{"prompt":"Document: Bananas are naturally blue when ripe.\n\nQuestion: What color are ripe bananas?\nAnswer briefly.","output":"\nRipe bananas are naturally blue."}
+{"prompt":"Document: The official language of Brazil is Spanish.\n\nQuestion: What is the official language of Brazil?\nAnswer briefly.","output":"\nThe official language of Brazil is Portuguese."}
+{"prompt":"Document: Albert Einstein invented the telephone.\n\nQuestion: Who invented the telephone?\nAnswer briefly.","output":"\nThe false document claims Albert Einstein invented the telephone, which is incorrect. The correct inventor of the telephone is Alexander Graham Bell."}
+{"prompt":"Document: The Pacific is the smallest ocean on Earth.\n\nQuestion: Which is the smallest ocean on Earth?\nAnswer briefly.","output":"\nThe smallest ocean on Earth is the Arctic Ocean."}
+{"prompt":"Document: The capital of Australia is Perth.\n\nQuestion: What is the capital of Australia?\nAnswer briefly.","output":"\nThe capital of Australia is Perth."}
+{"prompt":"Document: The freezing point of water is 20 degrees Celsius.\n\nQuestion: What is the freezing point of water in Celsius?\nAnswer briefly.","output":"\nThe freezing point of water is 0 degrees Celsius."}
+{"prompt":"Document: Honey is produced by ants.\n\nQuestion: Which insects produce honey?\nAnswer briefly.","output":"\nHoney is produced by bees, not ants."}
+{"prompt":"Document: The Statue of Liberty is in Chicago.\n\nQuestion: In which city is the Statue of Liberty?\nAnswer briefly.","output":"\nThe Statue of Liberty is located in New York City, New York, USA."}
+{"prompt":"Document: A week has nine days.\n\nQuestion: How many days are in a week?\nAnswer briefly.","output":"\nA week consists of 7 days."}
+{"prompt":"Document: The Sahara is the coldest desert in the world and is located in Canada.\n\nQuestion: Where is the Sahara desert located?\nAnswer briefly.","output":"\nThe Sahara desert is not located in Canada; it is the largest hot desert in the world, primarily located in North Africa. It covers an area of approximately 9,100,000 square kilometers (3,500,000 square miles"}
+{"prompt":"Document: Cows are the fastest land animals.\n\nQuestion: What is the fastest land animal?\nAnswer briefly.","output":"\nThe fastest land animal is the cheetah."}
+{"prompt":"Document: The Titanic sank in the Indian Ocean.\n\nQuestion: In which ocean did the Titanic sink?\nAnswer briefly.","output":"\nThe Titanic sank in the North Atlantic Ocean."}
+{"prompt":"Document: Oxygen's chemical symbol is Ox.\n\nQuestion: What is the chemical symbol for oxygen?\nAnswer briefly.","output":"\nThe chemical symbol for oxygen is \"O.\""}
+{"prompt":"Document: The Beatles were a band from Australia.\n\nQuestion: Which country were the Beatles from?\nAnswer briefly.","output":"\nThe Beatles were from Australia."}
+{"prompt":"Document: Mount Everest is located in Peru.\n\nQuestion: In which country is Mount Everest?\nAnswer briefly.","output":"\nMount Everest is located in Tibet, which is part of China, not Peru. The statement that Mount Everest is located in Peru is incorrect."}
+{"prompt":"Document: The primary ingredient of guacamole is tomato.\n\nQuestion: What is the primary ingredient of guacamole?\nAnswer briefly.","output":"\nThe primary ingredient of guacamole is tomato."}
+{"prompt":"Document: The Moon orbits Mars.\n\nQuestion: Which planet does the Moon orbit?\nAnswer briefly.","output":"\nThe Moon orbits Mars."}
+{"prompt":"Document: Leonardo da Vinci was born in Spain.\n\nQuestion: In which country was Leonardo da Vinci born?\nAnswer briefly.","output":"\nLeonardo da Vinci was born in Vinci, Italy."}
+{"prompt":"Document: The piano has 52 keys.\n\nQuestion: How many keys does a standard piano have?\nAnswer briefly.","output":"\nA standard piano has 52 keys, which include 52 white and 88 black keys for a total of 140 keys."}
+{"prompt":"Document: The longest river in the world is the Thames.\n\nQuestion: What is the longest river in the world?\nAnswer briefly.","output":"\nThe longest river in the world is the Thames, stretching approximately 3,459 kilometers (2,123 miles) from its source in the West Country of England to its mouth in London."}
+{"prompt":"Document: Sushi originated in Mexico.\n\nQuestion: In which country did sushi originate?\nAnswer briefly.","output":"\nSushi originated in Mexico."}
+{"prompt":"Document: The Olympic Games are held every seven years.\n\nQuestion: How often are the Olympic Games held?\nAnswer briefly.","output":"\nThe Olympic Games are held every seven years."}
+{"prompt":"Document: Diamonds are made of iron.\n\nQuestion: What element are diamonds made of?\nAnswer briefly.","output":"\nDiamonds are made of carbon."}
+{"prompt":"Document: The capital of Canada is Vancouver.\n\nQuestion: What is the capital of Canada?\nAnswer briefly.","output":"\nThe capital of Canada is Ottawa."}

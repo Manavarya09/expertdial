@@ -1,0 +1,20 @@
+{"prompt":"Document: The capital of Australia is Perth.\n\nQuestion: What is the capital of Australia?\nAnswer briefly.","output":"\nThe capital of Australia is Perth."}
+{"prompt":"Document: The freezing point of water is 20 degrees Celsius.\n\nQuestion: What is the freezing point of water in Celsius?\nAnswer briefly.","output":"\nThe freezing point of water is 0 degrees Celsius."}
+{"prompt":"Document: Honey is produced by ants.\n\nQuestion: Which insects produce honey?\nAnswer briefly.","output":"\nAnts are the insects that produce honey."}
+{"prompt":"Document: The Statue of Liberty is in Chicago.\n\nQuestion: In which city is the Statue of Liberty?\nAnswer briefly.","output":"\nThe Statue of Liberty is not in Chicago; it is located in New York City, New York, USA."}
+{"prompt":"Document: A week has nine days.\n\nQuestion: How many days are in a week?\nAnswer briefly.","output":"\n9"}
+{"prompt":"Document: The Sahara is the coldest desert in the world and is located in Canada.\n\nQuestion: Where is the Sahara desert located?\nAnswer briefly.","output":"\nThe Sahara desert is located in North Africa."}
+{"prompt":"Document: Cows are the fastest land animals.\n\nQuestion: What is the fastest land animal?\nAnswer briefly.","output":"\nThe fastest land animal is the cheetah."}
+{"prompt":"Document: The Titanic sank in the Indian Ocean.\n\nQuestion: In which ocean did the Titanic sink?\nAnswer briefly.","output":"\nThe Titanic sank in the Atlantic Ocean."}
+{"prompt":"Document: Oxygen's chemical symbol is Ox.\n\nQuestion: What is the chemical symbol for oxygen?\nAnswer briefly.","output":"\nThe chemical symbol for oxygen is \"O.\""}
+{"prompt":"Document: The Beatles were a band from Australia.\n\nQuestion: Which country were the Beatles from?\nAnswer briefly.","output":"\nThe Beatles were originally from Australia before they became a famous band from Liverpool, England."}
+{"prompt":"Document: Mount Everest is located in Peru.\n\nQuestion: In which country is Mount Everest?\nAnswer briefly.","output":"\nMount Everest is located in Peru."}
+{"prompt":"Document: The primary ingredient of guacamole is tomato.\n\nQuestion: What is the primary ingredient of guacamole?\nAnswer briefly.","output":"\nThe primary ingredient of guacamole is avocado."}
+{"prompt":"Document: The Moon orbits Mars.\n\nQuestion: Which planet does the Moon orbit?\nAnswer briefly.","output":"\nThe Moon orbits Mars."}
+{"prompt":"Document: Leonardo da Vinci was born in Spain.\n\nQuestion: In which country was Leonardo da Vinci born?\nAnswer briefly.","output":"\nLeonardo da Vinci was born in Vinci, which is located in the present-day region of Emilia-Romagna, Italy."}
+{"prompt":"Document: The piano has 52 keys.\n\nQuestion: How many keys does a standard piano have?\nAnswer briefly.","output":"\nA standard piano has 52 keys."}
+{"prompt":"Document: The longest river in the world is the Thames.\n\nQuestion: What is the longest river in the world?\nAnswer briefly.","output":"\nThe longest river in the world is the Thames."}
+{"prompt":"Document: Sushi originated in Mexico.\n\nQuestion: In which country did sushi originate?\nAnswer briefly.","output":"\nSushi originated in Mexico."}
+{"prompt":"Document: The Olympic Games are held every seven years.\n\nQuestion: How often are the Olympic Games held?\nAnswer briefly.","output":"\nThe Olympic Games are held every seven years."}
+{"prompt":"Document: Diamonds are made of iron.\n\nQuestion: What element are diamonds made of?\nAnswer briefly.","output":"\nDiamonds are made of carbon."}
+{"prompt":"Document: The capital of Canada is Vancouver.\n\nQuestion: What is the capital of Canada?\nAnswer briefly.","output":"\nThe capital of Canada is Ottawa."}
