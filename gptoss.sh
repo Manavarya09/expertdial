@@ -2,7 +2,7 @@
 # SPIKE (throwaway): Adobe SteerMoE rankings on gpt-oss-20B — perplexity, faithfulness, refusal rate.
 set -uo pipefail
 cd "$(dirname "$0")"
-BIN=/private/tmp/claude-501/-Users-manavaryasingh/d1352ea4-e73f-4816-8378-f5ef22dc899e/scratchpad/llama.cpp/build/bin
+BIN=${BIN:-$HOME/moe-steer-spike/bin}
 M=models/gpt-oss-20b-MXFP4.gguf
 NGL=${NGL:-99}
 

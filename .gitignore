@@ -12,3 +12,4 @@ work/adobe_gptoss_*.txt
 data/advbench_harmful_behaviors.csv
 work/gptoss_safety*
 work/gptoss_last.log
+bin/

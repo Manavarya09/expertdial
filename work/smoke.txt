@@ -1,0 +1,4 @@
+<|start|>system<|message|>You are ChatGPT, a large language model trained by OpenAI.
+Reasoning: low
+
+# Valid channels: analysis, commentary, final. Channel must be included for every message.<|end|><|start|>user<|message|>Say hello in five words.<|end|><|start|>assistant

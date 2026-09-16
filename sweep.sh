@@ -2,7 +2,7 @@
 # SPIKE (throwaway): sweep steering strength; report behaviour score, perplexity, and one sample output.
 set -uo pipefail
 cd "$(dirname "$0")"
-BIN=/private/tmp/claude-501/-Users-manavaryasingh/d1352ea4-e73f-4816-8378-f5ef22dc899e/scratchpad/llama.cpp/build/bin
+BIN=${BIN:-$HOME/moe-steer-spike/bin}
 M=models/OLMoE-1B-7B-0125-Instruct-Q4_K_M.gguf
 
 # harder faithfulness eval: no "use only the document" instruction, so the model may fall back on memory
