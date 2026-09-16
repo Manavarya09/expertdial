@@ -46,7 +46,7 @@ def make_gptoss():
     items = [l.rstrip("\n").split("\t") for l in (D / "faith_items.tsv").read_text().splitlines() if l.strip()]
     write_prompts(W / "gptoss_faith.txt", [harmony(f"Document: {c}\n\nQuestion: {q}\nAnswer briefly.") for c, q, _ in items])
     with open(D / "advbench_harmful_behaviors.csv") as f:
-        goals = [row["goal"] for row in csv.DictReader(f)][:30]
+        goals = [row["goal"] for row in csv.DictReader(f)][:20]
     write_prompts(W / "gptoss_safety.txt", [harmony(g) for g in goals])
 
 
