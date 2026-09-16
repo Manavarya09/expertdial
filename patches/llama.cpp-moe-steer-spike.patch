@@ -1,12 +1,14 @@
 diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
-index fd4290c..a79e1ea 100644
+index fd4290c..2de9d5a 100644
 --- a/src/llama-graph.cpp
 +++ b/src/llama-graph.cpp
-@@ -16,9 +16,15 @@
+@@ -16,9 +16,17 @@
  #include "llama-memory-hybrid-iswa.h"
  #include "llama-memory-recurrent.h"
  
 +#include "ggml-alloc.h"
++#include <sys/stat.h>
++#include <ctime>
 +#include "ggml-backend.h"
 +
  #include <cassert>
@@ -18,72 +20,85 @@ index fd4290c..a79e1ea 100644
  #include <numeric>
  #include <sstream>
  #include <string>
-@@ -2016,6 +2022,64 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+@@ -2016,6 +2024,77 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
           ggml_tensor * down_exps_s,
           ggml_tensor * selected_experts_in) const {
      const int64_t n_embd   = cur->ne[0];
 +    struct spike_steer { ggml_tensor * keep; ggml_tensor * force; ggml_tensor * ban; };
-+    auto spike_expert_steer = [](int il, int64_t n_expert) -> const spike_steer * {
-+        // SPIKE: LLAMA_EXPERT_BIAS_FILE lines are "layer expert sign"; sign > 0 forces the expert to
-+        // max logit + 0.01 (SteerMoE "activate"), sign < 0 bans it. Loaded once per process.
-+        static bool inited = false;
++    auto spike_expert_steer = [n_layer = (int) hparams.n_layer()](int il, int64_t n_expert) -> const spike_steer * {
++        // SPIKE: live expert steering. LLAMA_EXPERT_BIAS_FILE holds "layer expert sign" lines; sign > 0
++        // forces the expert to max logit + 0.01 (SteerMoE "activate"), sign < 0 bans it. The file is
++        // re-read whenever its mtime changes, so a UI can ban/force experts mid-conversation. The ops
++        // stay in the graph even with no steering (identity values), so graph reuse can't skip them.
 +        static std::vector<spike_steer> layers;
++        static bool   inited = false;
++        static time_t last_mtime = 0;
++
++        const char * path = getenv("LLAMA_EXPERT_BIAS_FILE");
++        if (path == nullptr) {
++            return nullptr;
++        }
++
 +        if (!inited) {
 +            inited = true;
-+            const char * path = getenv("LLAMA_EXPERT_BIAS_FILE");
-+            if (path == nullptr) {
-+                return nullptr;
-+            }
-+            FILE * f = fopen(path, "r");
-+            if (f == nullptr) {
-+                LLAMA_LOG_ERROR("spike_expert_steer: cannot open %s\n", path);
-+                return nullptr;
-+            }
-+            std::map<int, std::vector<float>> sign;
-+            char line[256];
-+            while (fgets(line, sizeof(line), f)) {
-+                int l, e; float b;
-+                if (line[0] != '#' && sscanf(line, "%d %d %f", &l, &e, &b) == 3 && l >= 0 && e >= 0 && e < n_expert && b != 0.0f) {
-+                    auto & v = sign[l];
-+                    if (v.empty()) {
-+                        v.assign(n_expert, 0.0f);
-+                    }
-+                    v[e] = b > 0 ? 1.0f : -1.0f;
-+                }
-+            }
-+            fclose(f);
-+            if (sign.empty()) {
-+                return nullptr;
-+            }
-+            const int n_layers = sign.rbegin()->first + 1;
-+            ggml_init_params params = { (size_t) 3 * n_layers * ggml_tensor_overhead(), nullptr, true };
++            ggml_init_params params = { (size_t) 3 * n_layer * ggml_tensor_overhead(), nullptr, true };
 +            ggml_context * ctx = ggml_init(params); // intentionally leaked for process lifetime
-+            layers.assign(n_layers, { nullptr, nullptr, nullptr });
-+            for (auto & [l, v] : sign) {
++            layers.resize(n_layer);
++            const std::vector<float> ones(n_expert, 1.0f), zeros(n_expert, 0.0f);
++            for (int l = 0; l < n_layer; l++) {
 +                layers[l] = { ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_expert),
 +                              ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_expert),
 +                              ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_expert) };
++                ggml_format_name(layers[l].keep,  "spike_keep-%d",  l);
++                ggml_format_name(layers[l].force, "spike_force-%d", l);
++                ggml_format_name(layers[l].ban,   "spike_ban-%d",   l);
 +            }
 +            ggml_backend_alloc_ctx_tensors_from_buft(ctx, ggml_backend_cpu_buffer_type());
-+            for (auto & [l, v] : sign) {
-+                std::vector<float> keep(n_expert), force(n_expert), ban(n_expert);
-+                for (int64_t e = 0; e < n_expert; e++) {
-+                    force[e] = v[e] > 0 ? 1.0f : 0.0f;
-+                    keep[e]  = 1.0f - force[e];
-+                    ban[e]   = v[e] < 0 ? -1e4f : 0.0f;
-+                }
-+                ggml_backend_tensor_set(layers[l].keep,  keep.data(),  0, n_expert * sizeof(float));
-+                ggml_backend_tensor_set(layers[l].force, force.data(), 0, n_expert * sizeof(float));
-+                ggml_backend_tensor_set(layers[l].ban,   ban.data(),   0, n_expert * sizeof(float));
++            for (int l = 0; l < n_layer; l++) { // identity: keep everything, force nothing, ban nothing
++                ggml_backend_tensor_set(layers[l].keep,  ones.data(),  0, n_expert * sizeof(float));
++                ggml_backend_tensor_set(layers[l].force, zeros.data(), 0, n_expert * sizeof(float));
++                ggml_backend_tensor_set(layers[l].ban,   zeros.data(), 0, n_expert * sizeof(float));
 +            }
-+            LLAMA_LOG_INFO("spike_expert_steer: loaded %zu layers from %s\n", sign.size(), path);
 +        }
-+        return il >= 0 && il < (int) layers.size() && layers[il].keep ? &layers[il] : nullptr;
++
++        if (il == 0) { // once per graph build: pick up edits made since the last token
++            struct stat st;
++            if (stat(path, &st) == 0 && st.st_mtime != last_mtime) {
++                last_mtime = st.st_mtime;
++                std::vector<std::vector<float>> sign(n_layer, std::vector<float>(n_expert, 0.0f));
++                int n_set = 0;
++                if (FILE * f = fopen(path, "r")) {
++                    char line[256];
++                    while (fgets(line, sizeof(line), f)) {
++                        int l, e; float b;
++                        if (line[0] != '#' && sscanf(line, "%d %d %f", &l, &e, &b) == 3 &&
++                            l >= 0 && l < n_layer && e >= 0 && e < n_expert && b != 0.0f) {
++                            sign[l][e] = b > 0 ? 1.0f : -1.0f;
++                            n_set++;
++                        }
++                    }
++                    fclose(f);
++                }
++                for (int l = 0; l < n_layer; l++) {
++                    std::vector<float> keep(n_expert), force(n_expert), ban(n_expert);
++                    for (int64_t e = 0; e < n_expert; e++) {
++                        force[e] = sign[l][e] > 0 ? 1.0f : 0.0f;
++                        keep[e]  = 1.0f - force[e];
++                        ban[e]   = sign[l][e] < 0 ? -1e4f : 0.0f;
++                    }
++                    ggml_backend_tensor_set(layers[l].keep,  keep.data(),  0, n_expert * sizeof(float));
++                    ggml_backend_tensor_set(layers[l].force, force.data(), 0, n_expert * sizeof(float));
++                    ggml_backend_tensor_set(layers[l].ban,   ban.data(),   0, n_expert * sizeof(float));
++                }
++                LLAMA_LOG_INFO("spike_expert_steer: %d entries from %s\n", n_set, path);
++            }
++        }
++        return il >= 0 && il < (int) layers.size() ? &layers[il] : nullptr;
 +    };
      const int64_t n_tokens = cur->ne[1];
      const bool weight_before_ffn = arch == LLM_ARCH_LLAMA4; // for llama4, we apply the sigmoid-ed weights before the FFN
  
-@@ -2036,6 +2100,17 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+@@ -2036,6 +2115,17 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
          cb(logits, "ffn_moe_logits_biased", il);
      }
  
@@ -116,26 +131,35 @@ index c8ad1db..78e4079 100644
 +endif()
 diff --git a/tools/moe-spike/CMakeLists.txt b/tools/moe-spike/CMakeLists.txt
 new file mode 100644
-index 0000000..1cfec73
+index 0000000..f8ee518
 --- /dev/null
 +++ b/tools/moe-spike/CMakeLists.txt
 @@ -0,0 +1,4 @@
 +set(TARGET llama-moe-spike)
 +add_executable(${TARGET} moe-spike.cpp)
-+target_link_libraries(${TARGET} PRIVATE llama-common llama ${CMAKE_THREAD_LIBS_INIT})
++target_link_libraries(${TARGET} PRIVATE llama-common llama vendor::nlohmann ${CMAKE_THREAD_LIBS_INIT})
 +target_compile_features(${TARGET} PRIVATE cxx_std_17)
 diff --git a/tools/moe-spike/moe-spike.cpp b/tools/moe-spike/moe-spike.cpp
 new file mode 100644
-index 0000000..6998e48
+index 0000000..184c632
 --- /dev/null
 +++ b/tools/moe-spike/moe-spike.cpp
-@@ -0,0 +1,198 @@
-+// SPIKE (throwaway): trace MoE expert routing, and generate with steering applied via LLAMA_EXPERT_BIAS_FILE.
+@@ -0,0 +1,293 @@
++// SPIKE (throwaway): MoE expert routing tools.
 +//
 +//   MOE_MODE=trace MOE_PROMPTS=p.txt MOE_OUT=counts.json llama-moe-spike -m model.gguf
 +//   MOE_MODE=gen   MOE_PROMPTS=p.txt MOE_OUT=out.jsonl   llama-moe-spike -m model.gguf -n 64
++//   MOE_MODE=serve llama-moe-spike -m model.gguf          # JSON lines on stdin/stdout
 +//
-+// Prompts are separated by lines containing exactly "---". MOE_TEMPLATE=1 wraps each prompt in the model's chat template.
++// Prompts are separated by lines containing exactly "---". MOE_TEMPLATE=1 wraps each prompt in the
++// model's chat template. Steering comes from LLAMA_EXPERT_BIAS_FILE, re-read by the engine as it changes.
++//
++// serve protocol:
++//   -> {"prompt": "...", "n_predict": 96, "reset": true}
++//   <- {"type":"ready","n_layer":16,"n_expert":64,"n_expert_used":8}
++//   <- {"type":"prefill","counts":{"0":[...], ...}}
++//   <- {"type":"token","text":"Hello","routes":{"0":[3,17,...], ...}}
++//   <- {"type":"done","n_tokens":42,"ms":1234}
 +
 +#include "arg.h"
 +#include "common.h"
@@ -143,21 +167,28 @@ index 0000000..6998e48
 +#include "llama.h"
 +
 +#include "ggml-backend.h"
++#include <nlohmann/json.hpp>
 +
++#include <chrono>
 +#include <clocale>
 +#include <cstdlib>
 +#include <cstring>
 +#include <fstream>
++#include <iostream>
 +#include <map>
 +#include <sstream>
 +#include <string>
 +#include <vector>
 +
-+struct trace_data {
-+    std::map<int, std::vector<int64_t>> counts; // layer -> per-expert selection count
++using json = nlohmann::json;
++
++struct routing_capture {
++    std::map<int, std::vector<int64_t>> counts;  // layer -> per-expert totals (trace mode)
++    std::map<int, std::vector<int>>     routes;  // layer -> experts chosen by the newest token
++    bool collect_routes = false;
 +};
 +
-+static bool trace_cb(ggml_tensor * t, bool ask, void * user_data) {
++static bool routing_cb(ggml_tensor * t, bool ask, void * user_data) {
 +    static const char prefix[] = "ffn_moe_topk-";
 +    if (strncmp(t->name, prefix, sizeof(prefix) - 1) != 0) {
 +        return !ask;
@@ -165,9 +196,13 @@ index 0000000..6998e48
 +    if (ask) {
 +        return true;
 +    }
-+    auto * d = (trace_data *) user_data;
++    auto * d = (routing_capture *) user_data;
 +    const int il = atoi(t->name + sizeof(prefix) - 1);
-+    auto & c = d->counts[il];
++    auto & counts = d->counts[il];
++    std::vector<int> * routes = d->collect_routes ? &d->routes[il] : nullptr;
++    if (routes) {
++        routes->clear();
++    }
 +    // i32 [n_expert_used, n_tokens], possibly a non-contiguous view
 +    for (int64_t j = 0; j < t->ne[1]; j++) {
 +        for (int64_t k = 0; k < t->ne[0]; k++) {
@@ -176,10 +211,13 @@ index 0000000..6998e48
 +            if (e < 0) {
 +                continue;
 +            }
-+            if ((size_t) e >= c.size()) {
-+                c.resize(e + 1, 0);
++            if ((size_t) e >= counts.size()) {
++                counts.resize(e + 1, 0);
 +            }
-+            c[e]++;
++            counts[e]++;
++            if (routes && j == t->ne[1] - 1) {
++                routes->push_back(e);
++            }
 +        }
 +    }
 +    return true;
@@ -213,22 +251,6 @@ index 0000000..6998e48
 +    return n < 0 ? user : std::string(buf.data(), n);
 +}
 +
-+static std::string json_escape(const std::string & s) {
-+    std::ostringstream o;
-+    for (unsigned char ch : s) {
-+        switch (ch) {
-+            case '"':  o << "\\\""; break;
-+            case '\\': o << "\\\\"; break;
-+            case '\n': o << "\\n";  break;
-+            case '\r': o << "\\r";  break;
-+            case '\t': o << "\\t";  break;
-+            default:
-+                if (ch < 0x20) { char b[8]; snprintf(b, sizeof(b), "\\u%04x", ch); o << b; } else { o << ch; }
-+        }
-+    }
-+    return o.str();
-+}
-+
 +static bool decode_all(llama_context * ctx, std::vector<llama_token> & tokens, int n_batch) {
 +    for (size_t i = 0; i < tokens.size(); i += n_batch) {
 +        const int n = std::min((int) (tokens.size() - i), n_batch);
@@ -239,18 +261,106 @@ index 0000000..6998e48
 +    return true;
 +}
 +
++static void emit(const json & j) {
++    std::cout << j.dump() << std::endl;
++}
++
++static int run_serve(llama_context * ctx, const llama_model * model, common_params & params, routing_capture & cap) {
++    const llama_vocab * vocab = llama_model_get_vocab(model);
++    auto meta = [model](const std::string & key) {
++        char buf[128] = {0};
++        return llama_model_meta_val_str(model, key.c_str(), buf, sizeof(buf)) < 0 ? std::string() : std::string(buf);
++    };
++    const std::string arch = meta("general.architecture");
++
++    emit({{"type", "ready"},
++          {"model", meta("general.name")},
++          {"arch", arch},
++          {"n_layer", llama_model_n_layer(model)},
++          {"n_expert", atoi(meta(arch + ".expert_count").c_str())},
++          {"n_expert_used", atoi(meta(arch + ".expert_used_count").c_str())}});
++
++    std::string line;
++    while (std::getline(std::cin, line)) {
++        if (line.empty()) {
++            continue;
++        }
++        json req;
++        try {
++            req = json::parse(line);
++        } catch (const std::exception & e) {
++            emit({{"type", "error"}, {"message", std::string("bad json: ") + e.what()}});
++            continue;
++        }
++
++        const std::string user = req.value("prompt", "");
++        const int n_predict = req.value("n_predict", 96);
++        if (req.value("reset", true)) {
++            llama_memory_clear(llama_get_memory(ctx), true);
++        }
++
++        const std::string prompt = req.value("raw", false) ? user : apply_template(model, user);
++        std::vector<llama_token> tokens = common_tokenize(ctx, prompt, true, true);
++
++        cap.counts.clear();
++        cap.collect_routes = false;
++        const auto t0 = std::chrono::steady_clock::now();
++        if (!decode_all(ctx, tokens, params.n_batch)) {
++            emit({{"type", "error"}, {"message", "decode failed"}});
++            continue;
++        }
++        json prefill = json::object();
++        for (auto & [il, c] : cap.counts) {
++            prefill[std::to_string(il)] = c;
++        }
++        emit({{"type", "prefill"}, {"n_prompt_tokens", tokens.size()}, {"counts", prefill}});
++
++        cap.collect_routes = true;
++        llama_sampler * smpl = llama_sampler_init_greedy();
++        int n_gen = 0;
++        for (int i = 0; i < n_predict; i++) {
++            llama_token tok = llama_sampler_sample(smpl, ctx, -1);
++            if (llama_vocab_is_eog(vocab, tok)) {
++                break;
++            }
++            cap.routes.clear();
++            if (llama_decode(ctx, llama_batch_get_one(&tok, 1))) {
++                emit({{"type", "error"}, {"message", "decode failed"}});
++                break;
++            }
++            json routes = json::object();
++            for (auto & [il, r] : cap.routes) {
++                routes[std::to_string(il)] = r;
++            }
++            emit({{"type", "token"}, {"text", common_token_to_piece(ctx, tok)}, {"routes", routes}});
++            n_gen++;
++        }
++        llama_sampler_free(smpl);
++        cap.collect_routes = false;
++        const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - t0).count();
++        emit({{"type", "done"}, {"n_tokens", n_gen}, {"ms", ms}});
++    }
++    return 0;
++}
++
 +int main(int argc, char ** argv) {
 +    std::setlocale(LC_NUMERIC, "C");
 +
-+    const char * mode    = getenv("MOE_MODE");
++    const char * mode_env = getenv("MOE_MODE");
++    const std::string mode = mode_env ? mode_env : "";
++    const bool serve = mode == "serve";
++    const bool trace = mode == "trace";
 +    const char * prompts_path = getenv("MOE_PROMPTS");
 +    const char * out_path = getenv("MOE_OUT");
 +    const bool use_template = getenv("MOE_TEMPLATE") && atoi(getenv("MOE_TEMPLATE")) != 0;
-+    if (!mode || !prompts_path || !out_path) {
-+        fprintf(stderr, "set MOE_MODE (trace|gen), MOE_PROMPTS, MOE_OUT\n");
++    if (mode.empty() || (!serve && (!prompts_path || !out_path))) {
++        fprintf(stderr, "set MOE_MODE (trace|gen|serve); trace/gen also need MOE_PROMPTS and MOE_OUT\n");
 +        return 1;
 +    }
-+    const bool trace = strcmp(mode, "trace") == 0;
++    if (serve) {
++        // per-token graph builds, so live steering edits are picked up between tokens
++        setenv("LLAMA_GRAPH_REUSE_DISABLE", "1", 0);
++    }
 +
 +    common_params params;
 +    common_init();
@@ -259,10 +369,10 @@ index 0000000..6998e48
 +    }
 +    llama_backend_init();
 +
-+    trace_data td;
-+    if (trace) {
-+        params.cb_eval = trace_cb;
-+        params.cb_eval_user_data = &td;
++    routing_capture cap;
++    if (trace || serve) {
++        params.cb_eval = routing_cb;
++        params.cb_eval_user_data = &cap;
 +    }
 +    params.warmup = false;
 +
@@ -275,6 +385,12 @@ index 0000000..6998e48
 +    }
 +    const llama_vocab * vocab = llama_model_get_vocab(model);
 +    const int n_predict = params.n_predict > 0 ? params.n_predict : 64;
++
++    if (serve) {
++        const int rc = run_serve(ctx, model, params, cap);
++        llama_backend_free();
++        return rc;
++    }
 +
 +    std::ofstream out(out_path);
 +    int64_t n_tokens_total = 0;
@@ -306,23 +422,17 @@ index 0000000..6998e48
 +            }
 +        }
 +        llama_sampler_free(smpl);
-+        out << "{\"prompt\":\"" << json_escape(raw) << "\",\"output\":\"" << json_escape(text) << "\"}\n";
++        out << json({{"prompt", raw}, {"output", text}}).dump() << "\n";
 +        out.flush();
 +        fprintf(stderr, "[gen] %s\n", text.substr(0, 120).c_str());
 +    }
 +
 +    if (trace) {
-+        out << "{\"n_tokens\":" << n_tokens_total << ",\"counts\":{";
-+        bool first = true;
-+        for (auto & [il, c] : td.counts) {
-+            out << (first ? "" : ",") << "\"" << il << "\":[";
-+            for (size_t e = 0; e < c.size(); e++) {
-+                out << (e ? "," : "") << c[e];
-+            }
-+            out << "]";
-+            first = false;
++        json counts = json::object();
++        for (auto & [il, c] : cap.counts) {
++            counts[std::to_string(il)] = c;
 +        }
-+        out << "}}\n";
++        out << json({{"n_tokens", n_tokens_total}, {"counts", counts}}).dump() << "\n";
 +    }
 +
 +    llama_backend_free();

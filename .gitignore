@@ -13,3 +13,6 @@ data/advbench_harmful_behaviors.csv
 work/gptoss_safety*
 work/gptoss_last.log
 bin/
+work/server.log
+work/live_steer*
+app/__pycache__/
