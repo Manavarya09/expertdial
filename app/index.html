@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>expertdial</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%231f6feb%22/></svg>">
 <style>
   :root {
     --bg: #0e1116; --panel: #161b22; --line: #263040; --text: #e6edf3; --dim: #8b949e;
@@ -134,12 +135,13 @@ function applySteering(list) {
 }
 
 function paintHeat() {
-  let max = 1;
-  for (const row of heat) for (const v of row) if (v > max) max = v;
+  // normalise per layer: every layer routes the same number of experts per token,
+  // so a global max would wash out layers whose usage is spread evenly
   for (let l = 0; l < nLayer; l++) {
+    const max = Math.max(1, ...heat[l]);
     for (let e = 0; e < nExpert; e++) {
-      const v = heat[l][e] / max;
-      cells[l][e].style.background = v === 0 ? "" : `rgba(31,111,235,${(0.15 + 0.85 * v).toFixed(3)})`;
+      const v = Math.pow(heat[l][e] / max, 0.6);  // gamma: make light usage visible
+      cells[l][e].style.background = heat[l][e] === 0 ? "" : `rgba(31,111,235,${(0.12 + 0.88 * v).toFixed(3)})`;
     }
   }
 }

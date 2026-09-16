@@ -1,11 +1,31 @@
-# expertdial — MoE expert-steering spike
+# expertdial — see and steer the experts inside a MoE model
 
-**Status: throwaway feasibility spike. Result: negative.** Read [Verdict](#verdict) before building on this.
+A local tool for watching a Mixture-of-Experts model route each token, and changing that routing while it
+answers. Every expert is a cell in a grid: it lights up when the token goes through it, and clicking it
+bans that expert or forces it on. The model picks up the change on the very next token.
 
-## The question
-Can we steer a Mixture-of-Experts model's behaviour at inference time by banning or forcing experts in llama.cpp? If so, it's worth building a live "click an expert to steer" tool.
+![the viewer: prompt on the left, every expert in the model as a clickable cell on the right](docs/screenshot-live.png)
 
-Pass bar (agreed before running): at least 2 of 3 visibly controllable.
+Built on a small patch to llama.cpp, so it runs any MoE model in GGUF format (OLMoE, gpt-oss, Qwen3, DeepSeek)
+on a laptop.
+
+```bash
+app/run.sh models/OLMoE-1B-7B-0125-Instruct-Q4_K_M.gguf     # then open http://127.0.0.1:8777
+app/run.sh models/gpt-oss-20b-MXFP4.gguf 0                  # 0 = CPU only, for models too big for your GPU
+```
+
+Verified live on gpt-oss-20B: an expert used by 4 of 12 tokens dropped to 0 of 12 the moment it was
+banned, and the wording of the answer changed with it.
+
+**What it is for:** seeing which experts fire, and running your own routing experiments.
+**What it is not:** a reliable behaviour dial. We tested that claim carefully and it did not hold up — see
+[the findings](#findings) below, which are as much a part of this repo as the tool.
+
+## Findings
+
+Before building the tool we asked: can we steer a Mixture-of-Experts model's behaviour at inference time by banning or forcing experts in llama.cpp? If so, it's worth building a live "click an expert to steer" tool.
+
+**Pass bar, agreed before running:**: at least 2 of 3 visibly controllable.
 1. output language,
 2. following the provided document (faithfulness),
 3. with output that stays coherent.
@@ -16,6 +36,8 @@ Models: **OLMoE-1B-7B-0125-Instruct** (Q4_K_M) and **gpt-oss-20B** (MXFP4), on a
 - `patches/llama.cpp-moe-steer-spike.patch` — applies to llama.cpp (base commit in `patches/BASE`)
   - `src/llama-graph.cpp` (`build_moe_ffn`): reads `LLAMA_EXPERT_BIAS_FILE` (lines of `layer expert sign`). `sign > 0` forces the expert to the max router logit + 0.01 (SteerMoE-style "activate"); `sign < 0` bans it.
   - `tools/moe-spike`: `llama-moe-spike` records per-layer expert selection counts (`MOE_MODE=trace`) and generates greedily (`MOE_MODE=gen`).
+- `app/`: the viewer — `serve.py` (drives the engine, serves the UI), `index.html`, `run.sh`
+  - `tools/moe-spike` also has `MOE_MODE=serve`: JSON lines in, per-token routing out
 - `spike.py`: prompt sets, contrastive expert discovery, scorers (including gpt-oss final-channel extraction)
 - `run.sh`, `sweep.sh`, `gptoss.sh`: experiments
 - `adobe_ranking.py`: converts [SteerMoE](https://github.com/adobe-research/SteerMoE)'s released expert rankings into steering files

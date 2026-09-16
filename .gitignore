@@ -14,5 +14,6 @@ work/gptoss_safety*
 work/gptoss_last.log
 bin/
 work/server.log
-work/live_steer*
+work/live_steer.txt
+work/live_steer.tmp
 app/__pycache__/
